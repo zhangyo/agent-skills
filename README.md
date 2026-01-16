@@ -21,4 +21,4 @@
   - Include templates under `assets/` if the skill references them.
 
   ## License
-  MIT (or your preferred license).
+  MIT
