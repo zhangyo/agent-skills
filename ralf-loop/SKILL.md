@@ -32,6 +32,7 @@ Not good for:
    - Ensure `ralf-loop/` exists in the repo root.
    - If missing, copy templates from `.agent/skills/ralf-loop/assets/ralf-loop-template/`.
 2) Load loop inputs
+   - Read `ralf-loop/STATUS.md` to check for previous errors or blockers.
    - Read `ralf-loop/PROMPT.md` for task statement and completion promise.
    - Read `ralf-loop/INSTRUCTIONS.md` for the latest user-provided implementation guidance.
    - Read `ralf-loop/CHECKLIST.md` for acceptance criteria.
@@ -41,14 +42,17 @@ Not good for:
 4) Record progress
    - Update `progress.md` with what changed and what remains.
    - Update `ralf-loop/STATUS.md` with a concise iteration summary and blockers.
+   - If verification fails, you MUST copy the exact error message into `ralf-loop/STATUS.md` under a `LAST ERROR` header. You cannot proceed to the next loop without acknowledging this error.
+   - Track repeated failures using a numeric `FAILED_ATTEMPTS` counter in `ralf-loop/STATUS.md` for the same fix without status change.
 5) Verify acceptance criteria
    - Run required tests or verification steps automatically.
-   - If no explicit test command is provided, choose the most relevant test target and run it.
+   - If no explicit test command is provided in `ralf-loop/INSTRUCTIONS.md`, STOP and ask the user to provide one.
    - Record test results in `progress.md`.
 6) Evaluate completion
    - Mark checklist items as green DONE only after verification passes.
    - If all checklist items are marked done in green, set `LOOP_STATE: DONE` in `ralf-loop/STATUS.md`.
-   - Otherwise set `LOOP_STATE: CONTINUE` and wait for the next user loop prompt.
+   - Check `FAILED_ATTEMPTS` in `ralf-loop/STATUS.md`; if the same fix was attempted 3 times without status changing, STOP and ask the user for new instructions instead of setting `LOOP_STATE: CONTINUE`.
+   - Otherwise set `LOOP_STATE: CONTINUE` and output the command to run the next iteration immediately.
 
 ## Checklist conventions
 - Store acceptance criteria in `ralf-loop/CHECKLIST.md`.
